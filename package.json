@@ -1,6 +1,9 @@
 {
   "name": "ismobilejs",
-  "version": "0.4.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.0-development",
   "description": "A simple JS library that detects mobile devices.",
   "keywords": [
     "ismobile",
@@ -9,7 +12,7 @@
     "useragent"
   ],
   "homepage": "https://github.com/kaimallea/isMobile",
-  "license": "CC0-1.0",
+  "license": "MIT",
   "author": {
     "name": "Kai Mallea",
     "email": "kmallea@gmail.com"
@@ -18,11 +21,29 @@
     "type": "git",
     "url": "https://github.com/kaimallea/isMobile.git"
   },
-  "main": "./isMobile",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "jsdelivr": "dist/isMobile.min.js",
+  "types": "types",
+  "scripts": {
+    "prebuild": "rm -rf cjs esm dist",
+    "build": "yarn build:library && yarn build:browser",
+    "build:library": "web-scripts build",
+    "build:browser": "parcel build --target browser --experimental-scope-hoisting --out-file isMobile.min.js src/index.browser.ts",
+    "test": "web-scripts test",
+    "lint": "web-scripts lint",
+    "commit": "web-scripts commit",
+    "release": "web-scripts release"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "web-scripts precommit",
+      "commit-msg": "web-scripts commitmsg"
+    }
+  },
   "devDependencies": {
-    "grunt": "0.4.x",
-    "grunt-contrib-jshint": "0.11.x",
-    "grunt-contrib-uglify": "0.9.x",
-    "grunt-contrib-jasmine": "0.8.x"
+    "@spotify/web-scripts": "^1.2.0",
+    "husky": "^3.0.3",
+    "parcel-bundler": "^1.12.3"
   }
 }
